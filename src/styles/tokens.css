@@ -1,0 +1,202 @@
+/* tokens.css — source unique de valeurs.
+   Famille « . » (trced) 1.2.0 — voir docs/Design System v1.2.dc.html.
+   Une valeur en dur dans un composant est un défaut de conformité.
+   Toute modification de la famille — un token, un composant, une feuille —
+   change cette version. Le journal est dans le document de référence. */
+
+:root {
+  /* 1 · primitifs — jamais utilisés directement dans un composant */
+  --grey-50: #f2f3f2;
+  --grey-300: #c8cac8;
+  --grey-500: #8b8d8c;
+  --grey-550: #74766f;
+  --grey-600: #6a6c6a;
+  --grey-800: #34362f;
+  --grey-850: #17181a;
+  --grey-900: #121311;
+  --paper-100: #ecebe6;
+  --red-600: #a33;
+  --red-400: #d97a72;
+
+  /* 2 · sémantiques — thème clair */
+  --color-bg: var(--grey-50);
+  --color-ink: var(--grey-850);
+  --color-muted: var(--grey-500);
+  --color-muted-strong: var(--grey-600);
+  --color-rule: var(--grey-300);
+  --color-accent: var(--color-ink);
+  --color-focus: var(--color-ink);
+  --color-danger: var(--red-600);
+  --color-selection: color-mix(in srgb, var(--color-ink) 8%, var(--color-bg));
+  --color-scrim: color-mix(in srgb, var(--color-bg) 88%, transparent);
+
+  /* 3 · échelles */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* La famille est à angles droits : aucune surface n'arrondit. Les tokens
+     restent nommés pour que les composants continuent de les déclarer. */
+  --radius-sm: 0;
+  --radius-md: 0;
+  /* Sauf ce qui n'est pas une surface : un point est un disque, et le reste
+     du temps ce token ne sert pas. */
+  --radius-full: 50%;
+
+  --touch-target: 44px;
+  --rule-width: 1px;
+
+  --motion-micro: 120ms;
+  --motion-panel: 200ms;
+  --motion-view: 260ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+  /* typographie */
+  /* La face de la famille est embarquée (fonts.css) : elle vient donc en
+     tête, pour que le rendu soit le même sur toute machine. La pile système
+     reste derrière, pour le temps du chargement et pour les caractères que
+     les deux sous-ensembles latins ne couvrent pas. */
+  --font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', 'IBM Plex Mono',
+    Menlo, Consolas, monospace;
+  --text-display: 36px;
+  --text-title: 24px;
+  --text-brand: 20px;
+  /* Même corps que trced. : 14px sur un écran ordinaire, 15px seulement
+     quand la fenêtre est assez large pour le porter. */
+  --text-body: clamp(14px, 1.1vw, 15px);
+  --text-data: 14px;
+  --text-label: 13px;
+  --text-meta: 12px;
+  /* Plancher du texte d'un champ, nul par défaut : relevé au doigt seulement,
+     plus bas. 16 px n'est pas un cran de l'échelle, c'est un seuil. */
+  --text-field-min: 0px;
+  --leading-display: 1.1;
+  --leading-title: 1.25;
+  --leading-brand: 1.2;
+  --leading-body: 1.6;
+  --leading-data: 1.45;
+  --leading-label: 1.4;
+  --leading-meta: 1.4;
+  --tracking-display: -0.03em;
+  --tracking-title: -0.02em;
+  --tracking-brand: -0.02em;
+  --weight-regular: 400;
+  --weight-medium: 500;
+
+  /* 4 · composants */
+  --button-height: 44px;
+  --button-padding-x: var(--space-5);
+  --field-height: 44px;
+  --field-padding-x: var(--space-3);
+  --row-min-height: 44px;
+  --row-padding-y: 10px;
+  --dot-size: 6px;
+  --dot-size-lg: 8px;
+  --sheet-max-width: 480px;
+
+  /* Les traces — propres à journal. Une marque par jour, la plus forte :
+     un point pour l'humeur, un cercle pour la note, un disque pour le texte,
+     un disque cerclé pour les deux. Ce sont des points et non des surfaces,
+     d'où --radius-full : la seule exception de la famille à l'angle droit.
+
+     Sept pixels est le pas de référence : c'est la marque qui fixe la
+     largeur d'une colonne de l'année, et « rien » occupe la même boîte pour
+     que douze lignes restent alignées. */
+  --trace-mark: 7px;
+  --trace-mood: 3px;
+  --trace-full: 9px;
+  --trace-full-lg: 11px;
+  --trace-core: 5px;
+
+  /* grilles */
+  --year-month-width: 36px;
+  --month-num-size: var(--text-meta);
+
+  /* Le corps du texte relu, réglable — jamais celui de l'interface : un
+     journal se lit, et l'échelle typographique de la famille reste intacte
+     autour de lui. Les trois crans sont posés plus bas, sur data-text-size. */
+  --text-read: 15px;
+  --leading-read: 1.65;
+
+  /* mise en page */
+  --screen-margin: var(--space-6);
+  --container-max: 1600px;
+  /* L'application est une coque, pas un document : elle occupe sa fenêtre.
+     Ce sont ses colonnes qui règlent les mesures, jamais un cadre. */
+  --panel-measure: 620px;
+  --measure: 64ch;
+
+  color-scheme: light dark;
+}
+
+/* Le thème suit prefers-color-scheme par défaut ; data-theme sur <html>
+   force le choix utilisateur, dans les deux directions. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: var(--grey-900);
+    --color-ink: var(--paper-100);
+    --color-muted: var(--grey-550);
+    --color-muted-strong: #8e9089;
+    --color-rule: var(--grey-800);
+    --color-danger: var(--red-400);
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-bg: var(--grey-900);
+  --color-ink: var(--paper-100);
+  --color-muted: var(--grey-550);
+  --color-muted-strong: #8e9089;
+  --color-rule: var(--grey-800);
+  --color-danger: var(--red-400);
+}
+
+/* Les trois crans du texte relu. Le réglage est posé sur <html> avant le
+   premier rendu (voir index.html) : le corps ne saute pas au montage. */
+:root[data-text-size='small'] {
+  --text-read: 14px;
+  --leading-read: 1.6;
+}
+
+:root[data-text-size='large'] {
+  --text-read: 18px;
+  --leading-read: 1.7;
+}
+
+/* Sous 16 px, Safari mobile zoome au focus d'un champ et ne redescend jamais.
+   On relève le plancher plutôt que de verrouiller le viewport : `maximum-scale`
+   interdirait aussi le zoom voulu, et iOS l'ignore. */
+@media (pointer: coarse) {
+  :root {
+    --text-field-min: 16px;
+  }
+}
+
+@media (min-width: 640px) {
+  :root {
+    --screen-margin: var(--space-8);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --screen-margin: var(--space-10);
+    /* Sur un écran large la promesse doit tenir le haut de page seule. */
+    --text-display: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-micro: 0ms;
+    --motion-panel: 0ms;
+    --motion-view: 0ms;
+  }
+}

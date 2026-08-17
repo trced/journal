@@ -1,0 +1,702 @@
+/* app.css — coque de l'application, traces, grilles et lecture.
+   La barre des destinations en bas, l'année au-dessus de la ligne de
+   flottaison, aucune cible sous 44 px au doigt. */
+
+.app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  isolation: isolate;
+}
+
+/* Route /app : l'application occupe la fenêtre et défile en interne.
+   `flex: none` est nécessaire — dans un conteneur flex en colonne, un
+   `flex-basis` remplacerait `height` et la hauteur redeviendrait indéfinie,
+   ce qui laisserait la grille pousser la page entière. */
+.app--page {
+  flex: none;
+  height: 100dvh;
+  width: 100%;
+}
+
+/* Encart de la page de présentation : le vrai composant, en 390 × 844. */
+.app--embedded {
+  width: 390px;
+  max-width: 100%;
+  height: 844px;
+  border: var(--rule-width) solid var(--color-ink);
+}
+
+.app__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--screen-margin) var(--space-3);
+  padding-top: calc(var(--space-4) + env(safe-area-inset-top));
+  border-bottom: var(--rule-width) solid var(--color-ink);
+}
+
+.app__brand {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-brand);
+  letter-spacing: var(--tracking-brand);
+  min-height: 32px;
+}
+
+.app__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: var(--space-8);
+}
+
+/* Bandeau du mode exemple : dit ce qu'il est, offre la sortie. */
+.app__demo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--screen-margin);
+  border-bottom: var(--rule-width) solid var(--color-rule);
+  font-size: var(--text-meta);
+  color: var(--color-muted-strong);
+}
+
+/* — la barre des destinations — */
+
+/* Quatre mots en clair, jamais un pictogramme : « bilan » ne se dessine pas.
+   La destination courante s'inverse — c'est le seul aplat de l'interface, et
+   il ne sert qu'à dire « vous êtes ici ». */
+.app__nav {
+  display: flex;
+  flex: none;
+  border-top: var(--rule-width) solid var(--color-ink);
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--color-bg);
+}
+
+.app__navtab {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: var(--touch-target);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-1);
+  font-size: var(--text-meta);
+  color: var(--color-muted-strong);
+  text-align: center;
+  transition: background var(--motion-micro) linear,
+    color var(--motion-micro) linear;
+}
+
+.app__navtab:hover {
+  color: var(--color-ink);
+}
+
+.app__navtab--current,
+.app__navtab--current:hover {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.app__navtab:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -3px;
+}
+
+/* — un bloc de la page — */
+
+.pane {
+  padding: var(--space-5) var(--screen-margin) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.pane__grid {
+  padding-top: var(--space-3);
+}
+
+.pane__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* La confirmation passagère prend la place de la mention d'autosave : même
+   ligne, même longueur d'air — rien ne se décale. */
+.pane__note {
+  min-height: var(--leading-meta);
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-muted-strong);
+}
+
+.pane__legend {
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-muted);
+}
+
+/* — les traces — */
+
+/* Quatre formes, une par état, et une cinquième invisible qui garde la place
+   des autres : sans elle, une ligne de mois sans aucune entrée serait plus
+   basse que ses voisines et l'année se déformerait. */
+.trace {
+  display: block;
+  flex: none;
+  width: var(--trace-mark);
+  height: var(--trace-mark);
+  border-radius: var(--radius-full);
+}
+
+.trace--none {
+  background: none;
+}
+
+.trace--mood {
+  /* Le point de l'humeur est plus petit que la marque : la marge le recentre
+     dans la même boîte de sept pixels. */
+  width: var(--trace-mood);
+  height: var(--trace-mood);
+  margin: calc((var(--trace-mark) - var(--trace-mood)) / 2);
+  background: var(--color-muted);
+}
+
+.trace--note {
+  border: var(--rule-width) solid var(--color-ink);
+}
+
+.trace--text {
+  background: var(--color-ink);
+}
+
+.trace--full {
+  width: var(--trace-full);
+  height: var(--trace-full);
+  border: var(--rule-width) solid var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trace--full.trace--lg {
+  width: var(--trace-full-lg);
+  height: var(--trace-full-lg);
+}
+
+.trace__core {
+  display: block;
+  width: var(--trace-core);
+  height: var(--trace-core);
+  border-radius: var(--radius-full);
+  background: var(--color-ink);
+}
+
+/* La légende : chaque forme et son mot, en clair et en permanence. */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  font-size: var(--text-meta);
+  color: var(--color-muted-strong);
+}
+
+.legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* — l'année — */
+
+/* Douze lignes de 44 px. La cible est la ligne, pas le point : trois pixels
+   ne se visent pas au doigt, et l'ouverture du mois est ce qu'on veut. */
+.year {
+  display: flex;
+  flex-direction: column;
+}
+
+.year__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 0 var(--space-1);
+  border-bottom: var(--rule-width) solid var(--color-rule);
+  transition: background var(--motion-micro) linear,
+    color var(--motion-micro) linear;
+}
+
+.year__row:hover {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+/* Au survol la ligne s'inverse : les marques suivent l'encre du texte, sinon
+   elles disparaîtraient dans le fond. */
+.year__row:hover .trace--mood {
+  background: var(--color-bg);
+}
+
+.year__row:hover .trace--note,
+.year__row:hover .trace--full {
+  border-color: var(--color-bg);
+}
+
+.year__row:hover .trace--text,
+.year__row:hover .trace__core {
+  background: var(--color-bg);
+}
+
+.year__row:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -3px;
+}
+
+.year__month {
+  flex: none;
+  width: var(--year-month-width);
+  font-size: var(--text-meta);
+  color: inherit;
+  opacity: 0.72;
+}
+
+/* Trente et une colonnes toujours, quel que soit le mois : février s'arrête
+   au vingt-huitième point, et les mois restent alignés colonne par colonne. */
+.year__days {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(31, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.year__chevron {
+  flex: none;
+  font-size: var(--text-meta);
+  opacity: 0.72;
+}
+
+/* — le mois — */
+
+.month {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Les initiales viennent de la locale : « L M M J V S D » en français,
+   « M T W T F S S » en anglais. Le bas-de-casse est un choix de la famille,
+   pas une donnée — d'où text-transform et non une lettre écrite en dur. */
+.month__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: var(--text-meta);
+  color: var(--color-muted-strong);
+  text-transform: lowercase;
+}
+
+.month__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.month__cell {
+  min-height: var(--touch-target);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  border-bottom: var(--rule-width) solid var(--color-rule);
+  transition: background var(--motion-micro) linear,
+    color var(--motion-micro) linear;
+}
+
+.month__pad {
+  /* Une case de tête n'est pas un jour : elle ne porte que le filet. */
+  min-height: var(--touch-target);
+}
+
+.month__num {
+  font-size: var(--month-num-size);
+  line-height: 1;
+}
+
+.month__cell--day .month__num {
+  color: var(--color-muted-strong);
+}
+
+/* Le week-end s'atténue au lieu de se colorer, et garde son quantième :
+   aucune information ne tient à la seule nuance de gris. */
+.month__cell--weekend .month__num {
+  color: var(--color-muted);
+}
+
+/* À venir : posé, lisible, mais ni cliquable ni tabulable — il n'y a rien à
+   lire, et on n'écrit pas demain. */
+.month__cell--future .month__num {
+  color: var(--color-muted);
+  opacity: 0.6;
+}
+
+/* Aujourd'hui : un trait de 2 px sous le quantième. Pas de fond, pas de
+   couleur, pas de pastille. */
+.month__cell--today .month__num {
+  color: var(--color-ink);
+  border-bottom: 2px solid var(--color-ink);
+}
+
+.month__cell--day:hover {
+  background: var(--color-selection);
+}
+
+.month__cell--day:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -3px;
+}
+
+/* Le jour ouvert en dernier garde son filet : on retrouve sa place en
+   revenant du texte. En inset plutôt qu'en bordure — une bordure décalerait
+   la case d'un pixel et la grille entière avec elle. */
+.month__cell--selected {
+  outline: var(--rule-width) solid var(--color-ink);
+  outline-offset: -1px;
+}
+
+/* Les creux réutilisent GapRow, dont la colonne de clé sert d'ordinaire à
+   aligner des dates. Ici il n'y en a pas : la colonne se referme sur le
+   tiret, sinon le libellé partirait seul à droite d'un vide de 56 px. */
+.month__gaps {
+  --row-key: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+/* — le jour — */
+
+.day {
+  gap: var(--space-5);
+}
+
+.day__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+}
+
+.day__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+/* La marque de la tête est posée sur la ligne de base du titre, pas centrée
+   sur sa hauteur : elle accompagne la date, elle ne la surplombe pas. */
+.day__head .trace {
+  margin-bottom: var(--space-1);
+}
+
+.day__meta {
+  margin-top: var(--space-1);
+}
+
+.day__body {
+  padding-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.day__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Le texte du jour est le sujet de l'écran : c'est le seul corps réglable de
+   l'application, et sa mesure est bornée pour rester lisible sur un écran
+   large — une ligne de cent caractères se relit mal. */
+.day__text {
+  font-size: var(--text-read);
+  line-height: var(--leading-read);
+  max-width: var(--measure);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.day__facts {
+  padding-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+}
+
+.day__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+
+.day__steps {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+/* — le bilan — */
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.stats__rows {
+  padding-top: var(--space-2);
+}
+
+.stats__moods,
+.stats__summary {
+  padding-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Des filets de longueur relative, pas des parts d'un tout : quatre mots ne
+   font pas un camembert, et leur somme ne veut rien dire. Le plus fréquent
+   tient toute la largeur, les autres s'y rapportent — et le compte est
+   toujours écrit à côté. */
+.mood {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mood__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--space-6);
+}
+
+.mood__label {
+  flex: none;
+  width: 56px;
+  font-size: var(--text-meta);
+  color: var(--color-muted);
+}
+
+.mood__track {
+  flex: 1;
+  min-width: 0;
+  height: var(--space-2);
+  border-bottom: var(--rule-width) solid var(--color-rule);
+  position: relative;
+}
+
+.mood__fill {
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--rule-width) * -1);
+  height: 0;
+  border-bottom: 3px solid var(--color-ink);
+}
+
+.mood__value {
+  flex: none;
+  width: var(--space-8);
+  text-align: right;
+  font-size: var(--text-meta);
+}
+
+/* — premier lancement — */
+
+/* La seule fois où l'application se présente : elle dit son vocabulaire,
+   puis s'efface. Aucune visite guidée, aucune étape à passer. */
+.first {
+  gap: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+.first__lede {
+  color: var(--color-muted-strong);
+}
+
+.first__legend {
+  padding-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.first__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.first__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--touch-target);
+}
+
+/* Colonne réservée à la marque : les quatre formes n'ont pas la même
+   largeur, et les mots doivent rester alignés. */
+.first__mark {
+  flex: none;
+  width: var(--space-3);
+  display: flex;
+  justify-content: center;
+}
+
+.first__row .t-meta {
+  margin-left: auto;
+}
+
+.first__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+/* — écrire — */
+
+.entry__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.entry__form {
+  padding-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.entry__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+/* — panneau plein cadre : écrire — */
+
+.settings__head {
+  padding: var(--space-5) var(--screen-margin) var(--space-3);
+  padding-top: calc(var(--space-5) + env(safe-area-inset-top));
+  border-bottom: var(--rule-width) solid var(--color-ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--touch-target);
+}
+
+/* La mention de droite peut passer à la ligne sur un téléphone étroit : elle
+   se serre vers son bord, et le retour garde le sien — un « ‹ annuler » coupé
+   en deux ne se lit plus comme un retour. */
+.settings__head .btn {
+  white-space: nowrap;
+}
+
+.settings__head .t-meta {
+  text-align: right;
+}
+
+.settings__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--space-5) var(--screen-margin) var(--space-6);
+  padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.settings__note {
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-muted-strong);
+}
+
+/* Le panneau couvre toute la coque, ses lignes non : à 1600 px un nom et sa
+   valeur ne peuvent pas être séparés par un mètre de vide. */
+@media (min-width: 900px) {
+  .settings__head,
+  .settings__body {
+    width: 100%;
+    max-width: calc(var(--panel-measure) + var(--space-16));
+    margin-inline: auto;
+  }
+}
+
+/* — la feuille de réglages — */
+
+/* Chaque section porte son propre air : dans une feuille, l'intervalle vient
+   du parent, et les sections s'y empileraient sans respiration. */
+.sheet > section {
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet > section > .section-label {
+  margin-bottom: var(--space-2);
+}
+
+.sheet > section > .settings__note {
+  margin-top: var(--space-3);
+}
+
+/* — paliers — */
+
+/* Au-delà du téléphone, la coque s'élargit mais les lignes non : une année
+   de trente et un points par mois est déjà large à 720 px, et le texte relu
+   a sa propre mesure. */
+@media (min-width: 640px) {
+  .app__scroll > .pane {
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+  .month__num {
+    font-size: var(--text-label);
+  }
+
+  .mood__label {
+    width: 72px;
+    font-size: var(--text-label);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app__navtab,
+  .year__row,
+  .month__cell {
+    transition: none;
+  }
+}

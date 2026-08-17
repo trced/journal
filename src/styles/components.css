@@ -1,0 +1,883 @@
+/* components.css — composants de la famille « . » 1.1.0.
+   Button · TextField · Toggle · ListRow · Dot · PeriodNav ·
+   SearchFilterBar · StatRow · Sheet · EmptyState / Message. */
+
+/* ————— Button ————— */
+
+.btn {
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  padding: 0 var(--button-padding-x);
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--motion-micro) linear,
+    color var(--motion-micro) linear,
+    box-shadow var(--motion-micro) linear;
+}
+
+.btn--primary {
+  justify-content: center;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-radius: var(--radius-md);
+  font-size: var(--text-label);
+}
+
+.btn--text {
+  padding: 0;
+  font-size: var(--text-label);
+  border-bottom: var(--rule-width) solid currentColor;
+  width: fit-content;
+}
+
+.btn--quiet {
+  padding: 0;
+  font-size: var(--text-label);
+  color: var(--color-muted-strong);
+  width: fit-content;
+}
+
+.btn--destructive {
+  padding: 0;
+  font-size: var(--text-label);
+  color: var(--color-danger);
+  width: fit-content;
+}
+
+.btn--destructive-strong {
+  border-bottom: var(--rule-width) solid currentColor;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--primary:hover {
+  background: color-mix(in srgb, var(--color-ink) 88%, #000);
+}
+
+/* Les boutons textuels n'ont pas de marge intérieure : l'inversion au survol
+   doit respirer de 8 px. Ce débord est peint par deux ombres portées et non
+   par du padding — la boîte garde sa taille, donc rien ne se décale autour.
+   C'est la règle : aucun état de survol ne change une géométrie. */
+.btn--text:hover,
+.btn--quiet:hover {
+  background: var(--color-ink);
+  color: var(--color-bg);
+  border-bottom-color: transparent;
+  box-shadow: calc(var(--space-2) * -1) 0 0 var(--color-ink),
+    var(--space-2) 0 0 var(--color-ink);
+}
+
+.btn--destructive:hover {
+  background: var(--color-danger);
+  color: var(--color-bg);
+  border-bottom-color: transparent;
+  box-shadow: calc(var(--space-2) * -1) 0 0 var(--color-danger),
+    var(--space-2) 0 0 var(--color-danger);
+}
+
+/* Un bouton qui occupe déjà toute la largeur ne peut pas déborder : il
+   sortirait de son conteneur. */
+.btn--block:hover,
+.btn--block:hover.btn--destructive {
+  box-shadow: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.btn--destructive:focus-visible {
+  outline-color: var(--color-danger);
+}
+
+.btn[disabled] {
+  color: var(--color-muted);
+  cursor: not-allowed;
+}
+
+.btn--primary[disabled] {
+  background: var(--color-rule);
+  color: var(--color-muted);
+}
+
+.btn--primary[disabled]:hover {
+  background: var(--color-rule);
+}
+
+/* ————— TextField ————— */
+
+.field {
+  display: block;
+}
+
+.field__label {
+  display: block;
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-muted);
+}
+
+/* L'astérisque est hors du <label> : le nom accessible du champ reste « Nom »
+   et c'est aria-required qui porte l'obligation. */
+.field__labelrow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+}
+
+.field__required {
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-ink);
+}
+
+.field--invalid .field__required {
+  color: var(--color-danger);
+}
+
+/* Légende d'un formulaire : dit une fois ce que l'astérisque signifie. */
+.form-legend {
+  margin-top: 2px;
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-muted);
+}
+
+.field__wrap {
+  position: relative;
+  display: flex;
+  margin-top: var(--space-2);
+}
+
+.field__input {
+  width: 100%;
+  min-height: var(--field-height);
+  padding: 0 var(--field-padding-x);
+  background: var(--color-bg);
+  color: var(--color-ink);
+  border: var(--rule-width) solid var(--color-rule);
+  border-radius: var(--radius-sm);
+  font-size: max(var(--text-data), var(--text-field-min));
+}
+
+.field__input--clearable {
+  padding-right: calc(var(--touch-target) - 2px);
+}
+
+textarea.field__input {
+  min-height: 76px;
+  padding: var(--row-padding-y) var(--field-padding-x);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.field__input:focus-visible {
+  border-color: var(--color-ink);
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.field--invalid .field__input {
+  border-color: var(--color-danger);
+}
+
+.field__input[disabled] {
+  color: var(--color-muted);
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+.field__hint {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-muted-strong);
+}
+
+.field__error {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-danger);
+}
+
+/* Bouton d'effacement en absolu : son apparition ne décale rien. */
+.field__clear {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--color-muted-strong);
+}
+
+.field__clear:hover {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.field__clear:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+/* ————— Toggle / ligne de réglage ————— */
+
+.toggle-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--touch-target);
+  padding: 0 var(--space-1);
+  border-bottom: var(--rule-width) solid var(--color-rule);
+  text-decoration: none;
+  transition: background var(--motion-micro) linear,
+    color var(--motion-micro) linear;
+}
+
+button.toggle-row,
+a.toggle-row {
+  cursor: pointer;
+}
+
+button.toggle-row:hover,
+a.toggle-row:hover {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.toggle-row--danger {
+  color: var(--color-danger);
+}
+
+button.toggle-row--danger:hover {
+  background: var(--color-danger);
+  color: var(--color-bg);
+}
+
+.toggle-row__name {
+  font-size: var(--text-data);
+}
+
+.toggle-row__value {
+  font-size: var(--text-label);
+  opacity: 0.72;
+  text-align: right;
+}
+
+.toggle-row--static .toggle-row__value {
+  opacity: 1;
+  color: var(--color-muted-strong);
+}
+
+/* ————— ListRow ————— */
+
+.list {
+  display: block;
+}
+
+.list__item {
+  border-bottom: var(--rule-width) solid var(--color-rule);
+}
+
+/* Rappel d'année dans la liste : un repère, pas un en-tête cliquable. */
+.list__year {
+  padding: var(--space-5) 0 var(--space-1) var(--space-1);
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-muted);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: var(--row-key, 56px) 16px 1fr;
+  gap: var(--space-3);
+  width: 100%;
+  align-items: stretch;
+  min-height: var(--row-min-height);
+  padding: var(--row-padding-y) var(--space-1);
+  transition: background var(--motion-micro) linear,
+    color var(--motion-micro) linear;
+}
+
+.row--nokey {
+  grid-template-columns: 16px 1fr;
+}
+
+button.row {
+  cursor: pointer;
+}
+
+button.row:hover {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+/* Trait gauche en inset : en border, la ligne se décalerait. */
+.row--selected {
+  background: var(--color-selection);
+  box-shadow: inset 2px 0 0 var(--color-ink);
+}
+
+.row__key {
+  font-size: var(--text-data);
+  opacity: 0.72;
+  white-space: nowrap;
+}
+
+.row__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.row__title {
+  font-size: var(--text-data);
+  overflow-wrap: anywhere;
+}
+
+/* Nom d'une course en vue Liste : un cran au-dessus de sa métadonnée. */
+.row__title--body {
+  font-size: var(--text-body);
+}
+
+.row__line {
+  font-size: var(--text-data);
+  opacity: 0.72;
+  overflow-wrap: anywhere;
+}
+
+.row__meta {
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  opacity: 0.72;
+  overflow-wrap: anywhere;
+}
+
+.row__gap {
+  display: grid;
+  /* La même colonne de clé que .row : recopier la valeur en dur désalignait
+     le creux dès qu'une liste redéfinissait --row-key. */
+  grid-template-columns: var(--row-key, 56px) 16px 1fr;
+  gap: var(--space-3);
+  padding: var(--row-padding-y) var(--space-1);
+  font-size: var(--text-meta);
+  color: var(--color-muted);
+}
+
+/* ————— Dot ————— */
+
+/* Colonne de marqueur : relative, largeur 16, étirée — sans hauteur
+   résolue, top/bottom n'ont rien contre quoi se calculer. */
+.marker {
+  position: relative;
+  width: 16px;
+  align-self: stretch;
+}
+
+.dot {
+  display: block;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: var(--radius-full);
+  background: currentColor;
+}
+
+.dot--lg {
+  width: var(--dot-size-lg);
+  height: var(--dot-size-lg);
+}
+
+.dot--outline {
+  background: none;
+  border: var(--rule-width) solid currentColor;
+}
+
+.marker__dot {
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: var(--radius-full);
+  background: currentColor;
+}
+
+/* Le trait déborde du padding pour franchir le séparateur : la continuité
+   doit rester visible d'une ligne à l'autre. */
+.marker__line-down {
+  position: absolute;
+  left: 2px;
+  top: 10px;
+  bottom: -10px;
+  border-left: var(--rule-width) solid currentColor;
+  opacity: 0.72;
+}
+
+.marker__line-up {
+  position: absolute;
+  left: 2px;
+  top: -10px;
+  height: 20px;
+  border-left: var(--rule-width) solid currentColor;
+  opacity: 0.72;
+}
+
+.marker__line-through {
+  position: absolute;
+  left: 2px;
+  top: -10px;
+  bottom: -10px;
+  border-left: var(--rule-width) solid currentColor;
+  opacity: 0.72;
+}
+
+/* ————— PeriodNav ————— */
+
+.period-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+}
+
+.period-nav__side {
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-1);
+  font-size: var(--text-label);
+  color: var(--color-muted-strong);
+  white-space: nowrap;
+}
+
+.period-nav__side--next {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.period-nav__side:hover {
+  color: var(--color-ink);
+}
+
+.period-nav__current {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: var(--touch-target);
+  justify-content: center;
+  padding: 0 var(--space-1);
+}
+
+.period-nav__title {
+  font-size: var(--text-title);
+  letter-spacing: var(--tracking-title);
+  white-space: nowrap;
+}
+
+/* Légende permanente : rien à deviner, aucun décalage de mise en page. */
+.period-nav__caption {
+  font-size: var(--text-meta);
+  color: var(--color-muted-strong);
+  white-space: nowrap;
+  border-bottom: var(--rule-width) solid var(--color-rule);
+}
+
+@media (max-width: 479px) {
+  .period-nav__side-label {
+    display: none;
+  }
+}
+
+/* ————— SearchFilterBar ————— */
+
+.searchbar {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.searchbar__field {
+  flex: 1;
+  min-width: 0;
+}
+
+.searchbar__field .field__wrap {
+  margin-top: 0;
+}
+
+/* Borne en `ch` : au doigt le texte passe à 16 px, une largeur en pixels
+   rognerait « tous les types ». La recherche garde la moitié de la barre. */
+.searchbar__select {
+  flex: 0 1 auto;
+  max-width: min(19ch, 50%);
+  min-height: var(--field-height);
+  padding: 0 var(--space-2) 0 var(--field-padding-x);
+  background: var(--color-bg);
+  color: var(--color-ink);
+  border: var(--rule-width) solid var(--color-rule);
+  border-radius: var(--radius-sm);
+  font-size: max(var(--text-label), var(--text-field-min));
+}
+
+/* ————— StatRow ————— */
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: var(--space-4) var(--space-1);
+  transition: background var(--motion-micro) linear,
+    color var(--motion-micro) linear;
+}
+
+button.stat {
+  cursor: pointer;
+}
+
+button.stat:hover {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+/* Ligne de synthèse hors liste : elle porte son propre séparateur. */
+.stat--ruled {
+  padding: var(--space-4) var(--space-1);
+  border-bottom: var(--rule-width) solid var(--color-rule);
+}
+
+.stat__line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.stat__label {
+  font-size: var(--text-data);
+  opacity: 0.72;
+}
+
+.stat__value {
+  font-size: var(--text-title);
+  letter-spacing: var(--tracking-title);
+  white-space: nowrap;
+}
+
+.stat__value--empty {
+  color: var(--color-muted);
+}
+
+.stat__context {
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  opacity: 0.72;
+}
+
+/* ————— Sheet ————— */
+
+.sheet-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--color-scrim);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 2;
+}
+
+.sheet-scrim__dismiss {
+  flex: 1;
+  min-height: var(--space-10);
+}
+
+.sheet {
+  /* La poignée déborde de la marge intérieure et du premier intervalle :
+     les deux passent par une variable pour rester solidaires. */
+  --sheet-pad: var(--space-6);
+  --sheet-gap: var(--space-4);
+  /* Bande de fond laissée libre au-dessus de la feuille : on doit pouvoir
+     la viser pour refermer. */
+  --sheet-reach: var(--space-12);
+
+  background: var(--color-bg);
+  border-top: var(--rule-width) solid var(--color-ink);
+  padding: var(--sheet-pad);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sheet-gap);
+  width: 100%;
+  /* Elle monte aussi haut qu'il le faut, en laissant de quoi viser le fond
+     pour la refermer. Un formulaire de sept champs ne doit pas défiler. */
+  max-height: calc(100% - var(--sheet-reach));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  animation: sheet-in var(--motion-panel) var(--ease-out);
+}
+
+/* Sur un téléphone, chaque intervalle compte : le rythme se resserre sans
+   qu'aucune cible ne descende sous 44 px. */
+@media (max-width: 639px) {
+  .sheet {
+    --sheet-pad: var(--space-5);
+    --sheet-gap: var(--space-3);
+    --sheet-reach: var(--space-6);
+    /* La marge du bas passe au dernier bloc : une barre collée au bord doit
+       porter son air elle-même, sinon elle recouvre ce qui la précède. */
+    padding-bottom: 0;
+  }
+
+  .sheet-scrim__dismiss {
+    min-height: var(--space-6);
+  }
+
+  .sheet .field__wrap {
+    margin-top: var(--space-1);
+  }
+
+  /* Deux lignes pleines : à 16 px, 52 px n'en laissaient plus qu'une. */
+  .sheet textarea.field__input {
+    min-height: 64px;
+  }
+
+  .sheet .form-grid {
+    gap: var(--space-3) var(--space-2);
+  }
+
+  /* Filet de sécurité : sur un écran trop court pour tout montrer, les
+     champs passent sous la barre d'actions au lieu de l'emporter avec eux.
+     « enregistrer » ne se cherche jamais. */
+  .sheet .sheet__actions {
+    position: sticky;
+    bottom: 0;
+    margin-top: 0;
+    padding: var(--space-3) 0 var(--sheet-pad);
+    background: var(--color-bg);
+  }
+
+  /* La confirmation remplace la barre d'actions : elle reprend sa marge. */
+  .sheet .confirm--boxed {
+    padding-bottom: var(--sheet-pad);
+  }
+}
+
+/* Au-delà du téléphone, une feuille pleine largeur n'est plus une feuille :
+   elle se recentre et se ferme de ses deux côtés. L'encart de la page de
+   présentation garde la sienne pleine — son cadre fait déjà 390 px. */
+@media (min-width: 640px) {
+  .app--page .sheet:not(.sheet--full) {
+    max-width: var(--sheet-max-width);
+    margin: 0 auto;
+    border-left: var(--rule-width) solid var(--color-ink);
+    border-right: var(--rule-width) solid var(--color-ink);
+  }
+}
+
+/* Poignée : la feuille se glisse vers le bas pour se fermer. La barre est
+   décorative, la zone tactile fait 44 px, le bouton « fermer » reste. */
+.sheet__grab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target);
+  margin: calc(var(--sheet-pad) * -1) calc(var(--sheet-pad) * -1)
+    calc(var(--sheet-gap) * -1);
+  touch-action: none;
+  cursor: grab;
+}
+
+.sheet__grab:active {
+  cursor: grabbing;
+}
+
+.sheet__grab::before {
+  content: '';
+  width: var(--space-8);
+  border-top: 2px solid var(--color-rule);
+}
+
+.sheet__grab:hover::before {
+  border-top-color: var(--color-ink);
+}
+
+/* Pendant le glissement la feuille suit le doigt sans transition ; au
+   relâchement elle revient à sa place. */
+.sheet--dragging {
+  animation: none;
+  transition: none;
+  user-select: none;
+}
+
+.sheet--settling {
+  animation: none;
+  transition: transform var(--motion-panel) var(--ease-out);
+}
+
+/* Panneau plein cadre : réglages, pas d'échelle de profondeur au-delà. */
+.sheet--full {
+  position: absolute;
+  inset: 0;
+  max-height: none;
+  padding: 0;
+  gap: 0;
+  border-top: 0;
+  z-index: 2;
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(8%);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
+}
+
+.sheet__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.sheet__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: var(--rule-width) solid var(--color-rule);
+}
+
+.sheet__actions-group {
+  display: flex;
+  gap: var(--space-6);
+  align-items: center;
+  margin-left: auto;
+}
+
+/* ————— EmptyState / Message ————— */
+
+.feedback {
+  padding: var(--space-8) var(--screen-margin);
+}
+
+.feedback__title {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.feedback__body {
+  margin-top: var(--space-2);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted-strong);
+}
+
+.feedback__action {
+  margin-top: var(--space-5);
+  min-height: var(--touch-target);
+}
+
+.feedback__note {
+  margin-top: var(--space-6);
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-muted);
+}
+
+/* ————— confirmation en ligne ————— */
+
+.confirm {
+  padding: var(--space-3) var(--space-1);
+  border-bottom: var(--rule-width) solid var(--color-rule);
+}
+
+.confirm--boxed {
+  margin-top: var(--space-2);
+  padding: var(--space-4) 0 0;
+  border-bottom: 0;
+  border-top: var(--rule-width) solid var(--color-rule);
+}
+
+.confirm__title {
+  font-size: var(--text-data);
+}
+
+.confirm__body {
+  margin-top: var(--space-1);
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  color: var(--color-muted-strong);
+}
+
+.confirm__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  align-items: center;
+  margin-top: var(--space-2);
+}
+
+/* ————— bandeau de mise à jour ————— */
+
+/* Posé au bas de la fenêtre, sur toute sa largeur : la proposition reste
+   lisible où qu'on en soit dans la page, et elle attend une réponse plutôt
+   que de s'effacer seule. Un filet suffit à la détacher du contenu — la
+   famille ne pose pas d'ombre pour dire « au-dessus ». */
+.update {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-6);
+  padding: var(--space-3) var(--screen-margin);
+  /* Sur un téléphone, le bas de la fenêtre n'est pas le bas de l'écran. */
+  padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+  background: var(--color-bg);
+  border-top: var(--rule-width) solid var(--color-ink);
+}
+
+.update__message {
+  font-size: var(--text-data);
+  line-height: var(--leading-data);
+}
+
+.update__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+}

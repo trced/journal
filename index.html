@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>journal. — une année, un jour à la fois</title>
+    <meta
+      name="description"
+      content="journal. répond à une seule question : qu'est-ce que j'ai vécu ce jour-là ? Journal quotidien local, hors ligne, sans compte."
+    />
+    <meta name="theme-color" content="#f2f3f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121311" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Aperçu de partage. og:url et og:image sont les deux seules lignes du
+         dépôt qui dépendent du domaine : la spécification les veut absolues. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="journal." />
+    <meta property="og:title" content="journal. — une année, un jour à la fois" />
+    <meta
+      property="og:description"
+      content="Journal quotidien local, hors ligne, sans compte. Une entrée par jour, un point par jour, l'année d'un coup d'œil."
+    />
+    <meta property="og:url" content="https://journal.app/" />
+    <meta property="og:image" content="https://journal.app/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="journal." />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Appliqués avant le premier rendu : évite le flash de thème clair et le
+      // saut de corps du texte relu. Aucune requête, lecture locale seule.
+      try {
+        var raw = localStorage.getItem('journal.v1')
+        var settings = raw ? JSON.parse(raw).settings || {} : {}
+        if (settings.theme === 'light' || settings.theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', settings.theme)
+        }
+        if (settings.textSize) {
+          document.documentElement.setAttribute('data-text-size', settings.textSize)
+        }
+      } catch (e) {
+        /* stockage indisponible : le thème suit le système */
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      journal. a besoin de JavaScript pour fonctionner. Tout s'exécute sur votre
+      appareil : rien n'est envoyé nulle part.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

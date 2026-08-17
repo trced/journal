@@ -1,0 +1,60 @@
+/** Routage. Les chemins sont neutres : la langue est un réglage, pas une URL. */
+
+import type { ReactNode } from 'react'
+import { BrowserRouter, Route, Routes, useSearchParams } from 'react-router'
+import { demoSample } from './app/demo.ts'
+import { JournalApp } from './app/JournalApp.tsx'
+import { UpdatePrompt } from './app/UpdatePrompt.tsx'
+import { I18nProvider, useI18n } from './i18n/index.tsx'
+import { DemoStoreProvider, StoreProvider, useStore } from './state/store.tsx'
+import { AboutPage } from './site/AboutPage.tsx'
+import { ChangelogPage } from './site/ChangelogPage.tsx'
+import { HomePage } from './site/HomePage.tsx'
+import { NoticePage, PrivacyPage, TermsPage } from './site/LegalPage.tsx'
+import { NotFoundPage } from './site/NotFoundPage.tsx'
+import { SiteLayout } from './site/SiteLayout.tsx'
+
+/** /app?demo=1 ouvre l'application remplie, sans rien écrire sur l'appareil. */
+function AppRoute() {
+  const [params] = useSearchParams()
+  const { t } = useI18n()
+  if (params.get('demo') === '1') {
+    return (
+      <DemoStoreProvider sample={demoSample(t)}>
+        <JournalApp />
+      </DemoStoreProvider>
+    )
+  }
+  return <JournalApp />
+}
+
+function Localised({ children }: { children: ReactNode }) {
+  const { lang } = useStore()
+  return <I18nProvider lang={lang}>{children}</I18nProvider>
+}
+
+export function App() {
+  return (
+    <StoreProvider>
+      <Localised>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/app" element={<AppRoute />} />
+            <Route element={<SiteLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/changelog" element={<ChangelogPage />} />
+              <Route path="/legal/terms" element={<TermsPage />} />
+              <Route path="/legal/privacy" element={<PrivacyPage />} />
+              <Route path="/legal/notice" element={<NoticePage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        {/* Hors du routeur : la proposition survit aux navigations, et elle
+            vaut pour le site comme pour l'application. */}
+        <UpdatePrompt />
+      </Localised>
+    </StoreProvider>
+  )
+}
