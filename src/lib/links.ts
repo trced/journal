@@ -14,3 +14,10 @@ export const CONTACT = `mailto:${CONTACT_EMAIL}`
  *  atterrit dans le même dépôt que « code source » — l'utilisateur qui veut
  *  vérifier ses droits trouve le texte et le code au même endroit. */
 export const LICENCE_URL = `${REPO}/blob/main/LICENSE`
+
+/** Les notices des composants tiers qui voyagent dans la version publiée,
+ *  dont JetBrains Mono — sous OFL 1.1, laquelle exige d'être distribuée avec
+ *  la fonte. Un fichier statique servi avec l'app, et non une route : la
+ *  licence doit rester lisible même si le rendu casse. Il est produit par
+ *  « npm run licences » (voir scripts/licences.mjs). */
+export const THIRD_PARTY_URL = '/licences-tierces.txt'

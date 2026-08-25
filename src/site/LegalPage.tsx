@@ -4,14 +4,14 @@
 import { Link } from 'react-router'
 import { useI18n } from '../i18n/index.tsx'
 import type { MessageKey } from '../i18n/index.tsx'
-import { CONTACT, CONTACT_EMAIL } from '../lib/links.ts'
+import { CONTACT, CONTACT_EMAIL, THIRD_PARTY_URL } from '../lib/links.ts'
 import { formatDate } from '../lib/format.ts'
 import { useDocumentMeta } from './SiteLayout.tsx'
 
 /** Date de dernière révision des textes légaux. Elle est écrite ici, et
  *  nulle part ailleurs : une page qui daterait du jour de la visite ne
  *  dirait rien de la version qu'on lit. */
-const UPDATED = '2026-08-17'
+const UPDATED = '2026-08-25'
 
 interface LegalPageProps {
   metaTitle: MessageKey
@@ -59,6 +59,14 @@ function LegalPage({
           <Link to="/legal/terms">{t('site.footer.terms')}</Link>
           <Link to="/legal/privacy">{t('site.footer.privacy')}</Link>
           <Link to="/legal/notice">{t('site.footer.notice')}</Link>
+          {/* Fichier statique, donc un vrai départ de l'app : ouvert à côté,
+              seule façon de revenir quand l'app est installée et n'a pas de
+              bouton retour. Les fontes sont sous OFL 1.1, qui demande d'être
+              distribuée avec elles : ce lien n'est pas un ornement, c'est ce
+              qui rend la distribution conforme. */}
+          <a href={THIRD_PARTY_URL} rel="noreferrer noopener" target="_blank">
+            {t('site.footer.thirdParty')}
+          </a>
           <a href={CONTACT}>{CONTACT_EMAIL}</a>
         </div>
       </section>

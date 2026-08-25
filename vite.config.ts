@@ -59,11 +59,20 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        // `txt` pour les notices de licences : elles couvrent une fonte que le
+        // service worker précache, et une licence joignable seulement en ligne
+        // n'accompagne pas vraiment ce qui, lui, part hors ligne.
+        globPatterns: ['**/*.{js,css,html,svg,png,txt,woff2}'],
         // L'image de partage n'est lue que par les robots d'aperçu : la
         // précacher ferait porter 12 ko à chaque installation pour rien.
         globIgnores: ['**/og.png'],
         navigateFallback: '/index.html',
+        // Ce qui n'est pas une route de l'app ne doit pas recevoir sa coquille.
+        // Les notices de licences y sont pour une raison plus forte : on y
+        // arrive par un lien de l'app, donc par une navigation — sans cette
+        // ligne, le lien rendait `index.html` sous le nom du fichier, et la
+        // licence de la fonte ne s'affichait jamais.
+        navigateFallbackDenylist: [/\.txt$/],
         cleanupOutdatedCaches: true,
         /*
          * Sans cela, la toute première visite reste non contrôlée : le worker

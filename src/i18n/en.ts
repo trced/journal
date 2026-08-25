@@ -313,6 +313,7 @@ export const en: Record<MessageKey, string> = {
   'site.footer.changelog': 'changelog',
   'site.footer.licence': 'licence',
   'site.footer.licenceName': 'AGPL-3.0-or-later',
+  'site.footer.thirdParty': 'third-party licences',
   'site.footer.contribute': 'contribute',
   'site.footer.licenceNote':
     'Open source. Any modified version made available must be too.',
@@ -451,7 +452,7 @@ export const en: Record<MessageKey, string> = {
     'Your entries — text, note, mood, place, time — and your settings, in your browser’s local storage, on your device. This data only leaves the device if you export the file yourself.',
   'site.legal.privacy.hostTitle': 'Hosting',
   'site.legal.privacy.hostBody':
-    'The app’s files are served by a static host, which may keep technical connection logs for the security of its service. Those logs are neither used nor consulted by the project.',
+    'The site is hosted by Vercel Inc., which keeps technical connection logs (IP address, user agent) to provide its service. Those logs are outside the project, which has no access to them.',
   'site.legal.privacy.rightsTitle': 'Your rights',
   'site.legal.privacy.rightsBody':
     'Since the project collects no personal data, there is nothing to request and nothing to have deleted. You keep control of your data at all times: Settings → export, or erase everything.',
@@ -465,7 +466,7 @@ export const en: Record<MessageKey, string> = {
     'journal. is a free software project, published by its authors with no commercial entity. Contact: {contact}.',
   'site.legal.notice.hostTitle': 'Hosting',
   'site.legal.notice.hostBody':
-    'The site is published as a set of static files. The chosen host holds no database for the project.',
+    'Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, United States — vercel.com. The site is published there as a set of static files: the host holds no database for the project.',
   'site.legal.notice.propertyTitle': 'Intellectual property',
   'site.legal.notice.propertyBody':
     'The source code is available under the AGPL-3.0-or-later licence. The text you write stays yours and is never transmitted to the project.',

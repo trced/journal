@@ -320,6 +320,7 @@ export const fr = {
   'site.footer.changelog': 'journal des changements',
   'site.footer.licence': 'licence',
   'site.footer.licenceName': 'AGPL-3.0-or-later',
+  'site.footer.thirdParty': 'licences tierces',
   'site.footer.contribute': 'contribuer',
   'site.footer.licenceNote':
     'Code ouvert. Toute version modifiée mise à disposition doit l’être aussi.',
@@ -458,8 +459,11 @@ export const fr = {
   'site.legal.privacy.storedBody':
     "Vos entrées — texte, note, humeur, lieu, heure — et vos réglages, dans le stockage local de votre navigateur, sur votre appareil. Ces données ne quittent l'appareil que si vous exportez le fichier vous-même.",
   'site.legal.privacy.hostTitle': 'Hébergement',
+  // Nommer l'hébergeur n'est pas une politesse : c'est le seul tiers qui voit
+  // passer une adresse IP, et une politique qui parle d'« un hébergeur » sans
+  // dire lequel ne permet à personne de vérifier ce qu'elle affirme.
   'site.legal.privacy.hostBody':
-    "Les fichiers de l'application sont servis par un hébergeur statique, qui peut conserver des journaux techniques de connexion pour la sécurité de son service. Ces journaux ne sont ni exploités ni consultés par le projet.",
+    "Le site est hébergé par Vercel Inc., qui conserve des journaux techniques de connexion (adresse IP, agent utilisateur) pour la fourniture de son service. Ces journaux échappent au projet, qui n'y a pas accès.",
   'site.legal.privacy.rightsTitle': 'Vos droits',
   'site.legal.privacy.rightsBody':
     "Puisqu'aucune donnée personnelle n'est collectée par le projet, il n'y a rien à demander ni à faire supprimer. Vous gardez à tout moment la maîtrise de vos données : Réglages → exporter, ou tout effacer.",
@@ -473,7 +477,7 @@ export const fr = {
     'journal. est un projet libre, publié par ses auteurs sans structure commerciale. Contact : {contact}.',
   'site.legal.notice.hostTitle': 'Hébergement',
   'site.legal.notice.hostBody':
-    "Le site est publié comme un ensemble de fichiers statiques. L'hébergeur retenu ne dispose d'aucune base de données du projet.",
+    "Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis — vercel.com. Le site y est publié comme un ensemble de fichiers statiques : l'hébergeur ne détient aucune base de données du projet.",
   'site.legal.notice.propertyTitle': 'Propriété intellectuelle',
   'site.legal.notice.propertyBody':
     'Le code source est disponible sous licence AGPL-3.0-or-later. Les textes que vous écrivez restent les vôtres et ne sont jamais transmis au projet.',
